@@ -3,49 +3,99 @@ package main
 import (
 	"fmt"
 	"math"
+	"time"
 
-	"github.com/fatih/color"
+	"github.com/morikuni/aec"
 )
 
 func main() {
-	var num [101]int
-	for k := range num {
-		num[k] = k
+	getPrime(101)
+}
+
+type sieve struct {
+	idx     int
+	num     []int
+	prime   []int
+	isPrime []bool
+}
+
+func getPrime(idx int) []int {
+	s := initSieve(idx)
+	ch := make(chan *sieve)
+	go s.screen(ch)
+
+	for i := 0; i < maxLen(s.idx); i++ {
+		fmt.Println()
 	}
-	var prime []int
+	color := aec.Color3BitB(aec.NewRGB3Bit(255, 85, 0))
+	for v := range ch {
+		v.display(color)
+		time.Sleep(50 * time.Millisecond)
+	}
 
-	// step 1
-	isPrime := initIsPrimeArray(len(num))
+	return s.prime
+}
 
-	// step 2 3
-	sqrt := int(math.Sqrt(float64(len(num))))
-	for i := 2; i < sqrt; i++ {
-		if isPrime[i] {
-			prime = append(prime, i)
+func initSieve(idx int) *sieve {
+	s := &sieve{}
+	s.idx = idx
+	s.num = make([]int, idx)
+	s.isPrime = make([]bool, idx)
 
-			for j := i * i; j < len(num); j += i {
-				isPrime[j] = false
+	for k := range s.num {
+		s.num[k] = k
+	}
+
+	for k := range s.isPrime {
+		if k <= 1 {
+			s.isPrime[k] = false
+		} else {
+			s.isPrime[k] = true
+		}
+	}
+	return s
+}
+
+func threshold(idx int) int {
+	return int(math.Sqrt(float64(idx)))
+}
+
+func (s *sieve) screen(ch chan *sieve) {
+	for i := 2; i < threshold(s.idx); i++ {
+		if s.isPrime[i] {
+			s.prime = append(s.prime, i)
+
+			for j := i * i; j < s.idx; j += i {
+				s.isPrime[j] = false
+				ch <- s
 			}
 		}
 	}
-	// step 4
-	for i := sqrt; i < len(num); i++ {
-		if isPrime[i] {
-			prime = append(prime, i)
+	close(ch)
+
+	for i := threshold(s.idx); i < s.idx; i++ {
+		if s.isPrime[i] {
+			s.prime = append(s.prime, i)
 		}
 	}
+}
 
-	// display
-	c := color.New(color.BgCyan, color.FgWhite)
-	for i, v := range num {
+func maxLen(l int) int {
+	return l / 10
+}
+
+func (s *sieve) display(color aec.ANSI) {
+	fmt.Print(aec.Up(uint(maxLen(s.idx))))
+
+	for i, v := range s.num {
 		if i == 0 {
 			continue
 		}
 		if i == 1 {
 			fmt.Print("   ")
 		} else {
-			if isPrime[i] {
-				c.Printf("%3v", v)
+			if s.isPrime[i] {
+				fmt.Printf(color.Apply("%3v"), v)
 			} else {
 				fmt.Printf("%3v", v)
 			}
@@ -58,23 +108,4 @@ func main() {
 			fmt.Println()
 		}
 	}
-
-	//fmt.Println()
-	//fmt.Println("Prime numbers:")
-	//for _, v := range prime {
-	//	fmt.Printf("%v, ", v)
-	//}
-}
-
-func initIsPrimeArray(idx int) []bool {
-	prime := make([]bool, idx)
-
-	for k := range prime {
-		if k <= 1 {
-			prime[k] = false
-		} else {
-			prime[k] = true
-		}
-	}
-	return prime
 }

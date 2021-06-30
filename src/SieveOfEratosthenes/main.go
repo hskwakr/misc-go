@@ -21,16 +21,13 @@ type sieve struct {
 
 func getPrime(idx int) []int {
 	s := initSieve(idx)
+	color := s.initDisplay()
+
 	ch := make(chan *sieve)
 	go s.screen(ch)
-
-	for i := 0; i < maxLen(s.idx); i++ {
-		fmt.Println()
-	}
-	color := aec.Color3BitB(aec.NewRGB3Bit(255, 85, 0))
 	for v := range ch {
+		time.Sleep(300 * time.Millisecond)
 		v.display(color)
-		time.Sleep(50 * time.Millisecond)
 	}
 
 	return s.prime
@@ -82,6 +79,16 @@ func (s *sieve) screen(ch chan *sieve) {
 
 func maxLen(l int) int {
 	return l / 10
+}
+
+func (s *sieve) initDisplay() aec.ANSI {
+	for i := 0; i < maxLen(s.idx); i++ {
+		fmt.Println()
+	}
+
+	color := aec.Color3BitB(aec.NewRGB3Bit(255, 85, 0))
+	s.display(color)
+	return color
 }
 
 func (s *sieve) display(color aec.ANSI) {

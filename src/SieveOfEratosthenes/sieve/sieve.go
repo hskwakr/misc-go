@@ -10,7 +10,7 @@ import (
 
 // Sieve to find prime numbers.
 type Sieve struct {
-	idx     int
+	size    uint
 	num     []int
 	isPrime []bool
 
@@ -36,13 +36,13 @@ func (e *SieveError) Error() string {
 /*************************************/
 
 // The amount of loops needed to find all prime numbers.
-func threshold(idx int) int {
-	return int(math.Sqrt(float64(idx)))
+func threshold(size uint) int {
+	return int(math.Sqrt(float64(size)))
 }
 
 // Table height of the sequence to display.
-func row(l int) int {
-	return l / 10
+func row(l uint) int {
+	return int(l) / 10
 }
 
 /*************************************/
@@ -50,9 +50,9 @@ func row(l int) int {
 /*************************************/
 
 // Initialize a struct Sieve with the size of numbers.
-func InitSieve(idx int) (*Sieve, error) {
+func InitSieve(size uint) (*Sieve, error) {
 	// There is no prime numbers under 2
-	if idx < 2 {
+	if size < 2 {
 		return nil, &SieveError{
 			time.Now(),
 			"The size of numbers must be at least 2",
@@ -60,9 +60,9 @@ func InitSieve(idx int) (*Sieve, error) {
 	}
 
 	s := &Sieve{}
-	s.idx = idx
-	s.num = make([]int, idx)
-	s.isPrime = make([]bool, idx)
+	s.size = size
+	s.num = make([]int, int(size))
+	s.isPrime = make([]bool, int(size))
 
 	for k := range s.num {
 		s.num[k] = k
@@ -81,11 +81,11 @@ func InitSieve(idx int) (*Sieve, error) {
 // Find prime numbers asynchronously.
 // When finding a not prime number, the method sends a Sieve struct to the channel.
 func (s *Sieve) Screen(ch chan *Sieve) {
-	for i := 2; i < threshold(s.idx); i++ {
+	for i := 2; i < threshold(s.size); i++ {
 		if s.isPrime[i] {
 			s.Prime = append(s.Prime, i)
 
-			for j := i * i; j < s.idx; j += i {
+			for j := i * i; j < int(s.size); j += i {
 				s.isPrime[j] = false
 				ch <- s
 			}
@@ -93,7 +93,7 @@ func (s *Sieve) Screen(ch chan *Sieve) {
 	}
 	close(ch)
 
-	for i := threshold(s.idx); i < s.idx; i++ {
+	for i := threshold(s.size); i < int(s.size); i++ {
 		if s.isPrime[i] {
 			s.Prime = append(s.Prime, i)
 		}
@@ -102,7 +102,7 @@ func (s *Sieve) Screen(ch chan *Sieve) {
 
 // Prepare console to display table.
 func (s *Sieve) InitDisplay() aec.ANSI {
-	for i := 0; i < row(s.idx); i++ {
+	for i := 0; i < row(s.size); i++ {
 		fmt.Println()
 	}
 
@@ -113,7 +113,7 @@ func (s *Sieve) InitDisplay() aec.ANSI {
 
 // Display a table of number sequence.
 func (s *Sieve) Display(color aec.ANSI) {
-	fmt.Print(aec.Up(uint(row(s.idx))))
+	fmt.Print(aec.Up(uint(row(s.size))))
 
 	for i, v := range s.num {
 		if i == 0 {

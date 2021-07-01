@@ -11,8 +11,8 @@ func main() {
 	getPrime(101)
 }
 
-func getPrime(idx int) []int {
-	s, err := sieve.InitSieve(idx)
+func getPrime(size uint) []int {
+	s, err := sieve.InitSieve(size)
 	if err != nil {
 		fmt.Println(err)
 	}

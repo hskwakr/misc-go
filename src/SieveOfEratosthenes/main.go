@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"time"
 
 	"github.com/hskwakr/misc-go/sieve-of-eratosthenes/sieve"
@@ -11,7 +12,11 @@ func main() {
 }
 
 func getPrime(idx int) []int {
-	s := sieve.InitSieve(idx)
+	s, err := sieve.InitSieve(idx)
+	if err != nil {
+		fmt.Println(err)
+	}
+
 	color := s.InitDisplay()
 
 	ch := make(chan *sieve.Sieve)

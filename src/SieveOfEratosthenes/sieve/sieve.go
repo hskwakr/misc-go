@@ -3,6 +3,7 @@ package sieve
 import (
 	"fmt"
 	"math"
+	"time"
 
 	"github.com/morikuni/aec"
 )
@@ -14,6 +15,20 @@ type Sieve struct {
 	isPrime []bool
 
 	Prime []int
+}
+
+/*************************************/
+/* Error                             */
+/*************************************/
+
+// Error for sieve
+type SieveError struct {
+	When time.Time
+	What string
+}
+
+func (e *SieveError) Error() string {
+	return fmt.Sprintf("at %v, %s", e.When, e.What)
 }
 
 /*************************************/
@@ -35,7 +50,15 @@ func row(l int) int {
 /*************************************/
 
 // Initialize a struct Sieve with the size of numbers.
-func InitSieve(idx int) *Sieve {
+func InitSieve(idx int) (*Sieve, error) {
+	// There is no prime numbers under 2
+	if idx < 2 {
+		return nil, &SieveError{
+			time.Now(),
+			"The size of numbers must be at least 2",
+		}
+	}
+
 	s := &Sieve{}
 	s.idx = idx
 	s.num = make([]int, idx)
@@ -52,7 +75,7 @@ func InitSieve(idx int) *Sieve {
 			s.isPrime[k] = true
 		}
 	}
-	return s
+	return s, nil
 }
 
 // Find prime numbers asynchronously.

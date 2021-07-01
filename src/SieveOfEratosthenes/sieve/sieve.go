@@ -7,6 +7,7 @@ import (
 	"github.com/morikuni/aec"
 )
 
+// Sieve to find prime numbers.
 type Sieve struct {
 	idx     int
 	num     []int
@@ -33,6 +34,7 @@ func row(l int) int {
 /* Public method                     */
 /*************************************/
 
+// Initialize a struct Sieve with the size of numbers.
 func InitSieve(idx int) *Sieve {
 	s := &Sieve{}
 	s.idx = idx
@@ -53,6 +55,8 @@ func InitSieve(idx int) *Sieve {
 	return s
 }
 
+// Find prime numbers asynchronously.
+// When finding a not prime number, the method sends a Sieve struct to the channel.
 func (s *Sieve) Screen(ch chan *Sieve) {
 	for i := 2; i < threshold(s.idx); i++ {
 		if s.isPrime[i] {
@@ -73,6 +77,7 @@ func (s *Sieve) Screen(ch chan *Sieve) {
 	}
 }
 
+// Prepare console to display table.
 func (s *Sieve) InitDisplay() aec.ANSI {
 	for i := 0; i < row(s.idx); i++ {
 		fmt.Println()
@@ -83,6 +88,7 @@ func (s *Sieve) InitDisplay() aec.ANSI {
 	return color
 }
 
+// Display a table of number sequence.
 func (s *Sieve) Display(color aec.ANSI) {
 	fmt.Print(aec.Up(uint(row(s.idx))))
 

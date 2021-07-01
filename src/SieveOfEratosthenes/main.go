@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	getPrime(101)
+	fmt.Printf("Prime number:%v \n", getPrime(101))
 }
 
 func getPrime(size uint) []int {

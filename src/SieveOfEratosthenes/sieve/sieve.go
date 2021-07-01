@@ -51,7 +51,7 @@ func row(l uint) int {
 
 // Initialize a struct Sieve with the size of numbers.
 func InitSieve(size uint) (*Sieve, error) {
-	// There is no prime numbers under 2
+	// There is no prime numbers when size is under 2
 	if size < 2 {
 		return nil, &SieveError{
 			time.Now(),

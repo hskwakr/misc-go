@@ -6,6 +6,7 @@ import "testing"
 /* Local function                    */
 /*************************************/
 
+// Compeare two int slice.
 func equal(s1, s2 []int) bool {
 	if len(s1) != len(s2) {
 		return false
@@ -37,13 +38,10 @@ func TestInitSieve(t *testing.T) {
 }
 
 func TestScreen(t *testing.T) {
-	expected := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
+	want := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
 
 	ch := make(chan *Sieve)
-	got, err := InitSieve(101)
-	if err != nil {
-		t.Error(err)
-	}
+	got, _ := InitSieve(101)
 
 	go got.Screen(ch)
 	for {
@@ -52,7 +50,7 @@ func TestScreen(t *testing.T) {
 			break
 		}
 	}
-	if !equal(expected, got.Prime) {
-		t.Errorf("got.Prime = %v; want %v", got.Prime, expected)
+	if !equal(want, got.Prime) {
+		t.Errorf("got.Prime = %v; want = %v", got.Prime, want)
 	}
 }

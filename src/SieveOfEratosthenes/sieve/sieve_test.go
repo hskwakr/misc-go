@@ -35,24 +35,30 @@ func TestRow(t *testing.T) {
 }
 
 func TestInitSieve(t *testing.T) {
+	want := []interface{}{
+		100,
+		true,
+		2,
+		nil,
+	}
 	var got *Sieve
 	var err error
 
 	got, err = InitSieve(100)
-	if err != nil && len(got.num) != 100 {
-		t.Errorf("len(got.num) = %v; want 100", len(got.num))
+	if err != nil && len(got.num) != want[0] {
+		t.Errorf("len(got.num) = %v; want %v", len(got.num), want[0])
 	}
 	got, err = InitSieve(3)
 	if err != nil && got.isPrime[0] && got.isPrime[1] {
-		t.Errorf("got.isPrime[0] = %v got.isPrime[1] = %v; want both true", got.isPrime[0], got.isPrime[1])
+		t.Errorf("got.isPrime[0] = %v got.isPrime[1] = %v; want %v", got.isPrime[0], got.isPrime[1], want[1])
 	}
 	got, err = InitSieve(2)
-	if err != nil && got.Prime[0] != 2 {
-		t.Errorf("got.Prime[0] = %v; want 2", got.Prime[0])
+	if err != nil && got.Prime[0] != want[2] {
+		t.Errorf("got.Prime[0] = %v; want %v", got.Prime[0], want[2])
 	}
 	got, err = InitSieve(1)
-	if err == nil {
-		t.Errorf("err = %v; want error", err)
+	if err == want[3] {
+		t.Errorf("err = %v; want %v", err, want[3])
 	}
 }
 

@@ -132,7 +132,6 @@ func (s *Sieve) InitDisplay() aec.ANSI {
 
 // Display a table of number sequence.
 func (s *Sieve) Display(color aec.ANSI) {
-	//fmt.Print(aec.Up(uint(row(s.size))))
 	fmt.Print(aec.Up(uint(s.row())))
 
 	for i, v := range s.num {

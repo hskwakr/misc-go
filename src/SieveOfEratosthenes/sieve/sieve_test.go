@@ -1,35 +1,17 @@
 package sieve
 
-import "testing"
+import (
+	"reflect"
+	"testing"
+)
 
 /*************************************/
 /* Local function                    */
 /*************************************/
 
-// Compeare two int slice.
-func equal_slice_int(s1, s2 []int) bool {
-	if len(s1) != len(s2) {
-		return false
-	}
-	for k, v1 := range s1 {
-		if s2[k] != v1 {
-			return false
-		}
-	}
-	return true
-}
-
-// Compeare two bool slice.
-func equal_slice_bool(s1, s2 []bool) bool {
-	if len(s1) != len(s2) {
-		return false
-	}
-	for k, v1 := range s1 {
-		if s2[k] != v1 {
-			return false
-		}
-	}
-	return true
+// Compare two variables
+func equal(a, b interface{}) bool {
+	return reflect.DeepEqual(a, b)
 }
 
 /*************************************/
@@ -78,7 +60,7 @@ func TestScreen_1(t *testing.T) {
 			break
 		}
 	}
-	if !equal_slice_int(want, got.Prime) {
+	if !equal(want, got.Prime) {
 		t.Errorf("got.Prime = %v; want = %v", got.Prime, want)
 	}
 }
@@ -120,7 +102,7 @@ func TestScreen_2(t *testing.T) {
 				end = true
 				break
 			}
-			if !equal_slice_bool(want[k], got.isPrime) {
+			if !equal(want[k], got.isPrime) {
 				t.Errorf("got.isPrime = %v; want[%v] = %v", s.isPrime, k, want[k])
 				end = true
 				break

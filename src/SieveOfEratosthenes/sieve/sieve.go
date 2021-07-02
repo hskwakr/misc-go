@@ -59,6 +59,7 @@ func InitSieve(size uint) (*Sieve, error) {
 		}
 	}
 
+	size++
 	s := &Sieve{}
 	s.size = size
 	s.num = make([]int, int(size))

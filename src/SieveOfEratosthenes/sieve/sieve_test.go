@@ -31,15 +31,15 @@ func TestInitSieve(t *testing.T) {
 	if err != nil && len(got.num) != 101 {
 		t.Errorf("len(got.num) = %v; want 101", len(got.num))
 	}
-	got, err = InitSieve(2)
-	if err != nil && len(got.num) != 2 {
-		t.Errorf("len(got.num) = %v; want 2", len(got.num))
-	}
 	got, err = InitSieve(3)
 	if err != nil && got.isPrime[0] && got.isPrime[1] {
 		t.Errorf("got.isPrime[0] = %v got.isPrime[1] = %v; want both true", got.isPrime[0], got.isPrime[1])
 	}
-	got, err = InitSieve(0)
+	got, err = InitSieve(2)
+	if err != nil && got.Prime[0] != 2 {
+		t.Errorf("got.Prime[0] = %v; want 2", got.Prime[0])
+	}
+	got, err = InitSieve(1)
 	if err == nil {
 		t.Errorf("err = %v; want error", err)
 	}

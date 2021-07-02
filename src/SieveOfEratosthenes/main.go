@@ -18,6 +18,7 @@ func getPrime(size uint) []int {
 	s, err1 := sieve.InitSieve(size)
 	if err1 != nil {
 		fmt.Println(err1)
+		return nil
 	}
 
 	color := s.InitDisplay()

@@ -18,6 +18,22 @@ func equal(a, b interface{}) bool {
 /* Test                              */
 /*************************************/
 
+func TestThreshold(t *testing.T) {
+	want := 3
+	s, _ := InitSieve(10)
+	if want != s.threshold() {
+		t.Errorf("s.threshold() = %v; want %v", s.threshold(), want)
+	}
+}
+
+func TestRow(t *testing.T) {
+	want := 10
+	s, _ := InitSieve(99)
+	if want != s.row() {
+		t.Errorf("s.row() = %v; want %v", s.row(), want)
+	}
+}
+
 func TestInitSieve(t *testing.T) {
 	var got *Sieve
 	var err error

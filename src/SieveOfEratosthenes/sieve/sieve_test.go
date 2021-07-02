@@ -27,9 +27,9 @@ func TestInitSieve(t *testing.T) {
 	var got *Sieve
 	var err error
 
-	got, err = InitSieve(101)
-	if err != nil && len(got.num) != 101 {
-		t.Errorf("len(got.num) = %v; want 101", len(got.num))
+	got, err = InitSieve(100)
+	if err != nil && len(got.num) != 100 {
+		t.Errorf("len(got.num) = %v; want 100", len(got.num))
 	}
 	got, err = InitSieve(3)
 	if err != nil && got.isPrime[0] && got.isPrime[1] {
@@ -50,7 +50,7 @@ func TestScreen(t *testing.T) {
 
 	ch := make(chan *Sieve)
 	err := make(chan error)
-	got, _ := InitSieve(101)
+	got, _ := InitSieve(100)
 
 	go got.Screen(ch, err)
 	for {

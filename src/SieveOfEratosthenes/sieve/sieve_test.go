@@ -7,7 +7,20 @@ import "testing"
 /*************************************/
 
 // Compeare two int slice.
-func equal(s1, s2 []int) bool {
+func equal_slice_int(s1, s2 []int) bool {
+	if len(s1) != len(s2) {
+		return false
+	}
+	for k, v1 := range s1 {
+		if s2[k] != v1 {
+			return false
+		}
+	}
+	return true
+}
+
+// Compeare two bool slice.
+func equal_slice_bool(s1, s2 []bool) bool {
 	if len(s1) != len(s2) {
 		return false
 	}
@@ -45,7 +58,7 @@ func TestInitSieve(t *testing.T) {
 	}
 }
 
-func TestScreen(t *testing.T) {
+func TestScreen_1(t *testing.T) {
 	want := []int{2, 3, 5, 7, 11, 13, 17, 19, 23, 29, 31, 37, 41, 43, 47, 53, 59, 61, 67, 71, 73, 79, 83, 89, 97}
 
 	ch := make(chan *Sieve)
@@ -65,7 +78,54 @@ func TestScreen(t *testing.T) {
 			break
 		}
 	}
-	if !equal(want, got.Prime) {
+	if !equal_slice_int(want, got.Prime) {
 		t.Errorf("got.Prime = %v; want = %v", got.Prime, want)
+	}
+}
+
+func TestScreen_2(t *testing.T) {
+	want := [][]bool{
+		// false: 4
+		{false, false, true, true, false, true, true, true, true, true, true},
+		// false: 4, 6
+		{false, false, true, true, false, true, false, true, true, true, true},
+		// false: 4, 6, 8
+		{false, false, true, true, false, true, false, true, false, true, true},
+		// false: 4, 6, 8, 10
+		{false, false, true, true, false, true, false, true, false, true, false},
+		// false: 4, 6, 8, 9, 10
+		{false, false, true, true, false, true, false, true, false, false, false},
+	}
+	ch := make(chan *Sieve)
+	err := make(chan error)
+	s, _ := InitSieve(10)
+
+	go s.Screen(ch, err)
+	end := false
+	k := 0
+	for {
+		if end {
+			break
+		}
+
+		select {
+		case e := <-err:
+			if e != nil {
+				t.Errorf("e = %v; want nil", e)
+				end = true
+				break
+			}
+		case got, ok := <-ch:
+			if !ok {
+				end = true
+				break
+			}
+			if !equal_slice_bool(want[k], got.isPrime) {
+				t.Errorf("got.isPrime = %v; want[%v] = %v", s.isPrime, k, want[k])
+				end = true
+				break
+			}
+			k++
+		}
 	}
 }

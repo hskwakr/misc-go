@@ -80,7 +80,24 @@ func InitSieve(size uint) (*Sieve, error) {
 
 // Find prime numbers asynchronously.
 // When finding a not prime number, the method sends a Sieve struct to the channel.
-func (s *Sieve) Screen(ch chan *Sieve) {
+// This method is intended to call with goroutine.
+func (s *Sieve) Screen(ch chan *Sieve, err chan error) {
+	// There is no prime numbers when size is under 2
+	if s.size < 2 {
+		err <- &SieveError{
+			time.Now(),
+			"The size of numbers must be at least 2",
+		}
+	}
+	// Need to initialize before using this method
+	if s.isPrime[0] && s.isPrime[1] {
+		err <- &SieveError{
+			time.Now(),
+			"Need to initialize the structure before using this method",
+		}
+	}
+	close(err)
+
 	for i := 2; i < threshold(s.size); i++ {
 		if s.isPrime[i] {
 			s.Prime = append(s.Prime, i)

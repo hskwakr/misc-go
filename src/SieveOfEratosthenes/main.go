@@ -8,22 +8,45 @@ import (
 )
 
 func main() {
-	fmt.Printf("Prime number:%v \n", getPrime(101))
+	prime := getPrime(101)
+
+	fmt.Println()
+	fmt.Printf("Prime number:%v \n", prime)
 }
 
 func getPrime(size uint) []int {
-	s, err := sieve.InitSieve(size)
-	if err != nil {
-		fmt.Println(err)
+	s, err1 := sieve.InitSieve(size)
+	if err1 != nil {
+		fmt.Println(err1)
 	}
 
 	color := s.InitDisplay()
 
 	ch := make(chan *sieve.Sieve)
-	go s.Screen(ch)
-	for v := range ch {
-		time.Sleep(300 * time.Millisecond)
-		v.Display(color)
+	err2 := make(chan error)
+	go s.Screen(ch, err2)
+
+	end := false
+	for {
+		if end {
+			break
+		}
+
+		select {
+		case e := <-err2:
+			if e != nil {
+				fmt.Println(e)
+				end = true
+				break
+			}
+		case v, ok := <-ch:
+			if !ok {
+				end = true
+				break
+			}
+			time.Sleep(300 * time.Millisecond)
+			v.Display(color)
+		}
 	}
 
 	return s.Prime

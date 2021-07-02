@@ -36,13 +36,13 @@ func (e *SieveError) Error() string {
 /*************************************/
 
 // The amount of loops needed to find all prime numbers.
-func threshold(size uint) int {
-	return int(math.Sqrt(float64(size)))
+func (s Sieve) threshold() int {
+	return int(math.Sqrt(float64(s.size)))
 }
 
 // Table height of the sequence to display.
-func row(l uint) int {
-	r := math.Ceil(float64(l) / 10)
+func (s Sieve) row() int {
+	r := math.Ceil(float64(s.size) / 10)
 	return int(r)
 }
 
@@ -100,7 +100,7 @@ func (s *Sieve) Screen(ch chan *Sieve, err chan error) {
 	}
 	close(err)
 
-	for i := 2; i < threshold(s.size); i++ {
+	for i := 2; i < s.threshold(); i++ {
 		if s.isPrime[i] {
 			s.Prime = append(s.Prime, i)
 
@@ -112,7 +112,7 @@ func (s *Sieve) Screen(ch chan *Sieve, err chan error) {
 	}
 	close(ch)
 
-	for i := threshold(s.size); i < int(s.size); i++ {
+	for i := s.threshold(); i < int(s.size); i++ {
 		if s.isPrime[i] {
 			s.Prime = append(s.Prime, i)
 		}
@@ -121,7 +121,7 @@ func (s *Sieve) Screen(ch chan *Sieve, err chan error) {
 
 // Prepare console to display table.
 func (s *Sieve) InitDisplay() aec.ANSI {
-	for i := 0; i < row(s.size); i++ {
+	for i := 0; i < s.row(); i++ {
 		fmt.Println()
 	}
 
@@ -133,7 +133,7 @@ func (s *Sieve) InitDisplay() aec.ANSI {
 // Display a table of number sequence.
 func (s *Sieve) Display(color aec.ANSI) {
 	//fmt.Print(aec.Up(uint(row(s.size))))
-	fmt.Print(aec.Up(10))
+	fmt.Print(aec.Up(uint(s.row())))
 
 	for i, v := range s.num {
 		if i == 0 {

@@ -8,7 +8,7 @@ import (
 )
 
 func main() {
-	prime := getPrime(100)
+	prime := getPrime(99)
 
 	fmt.Println()
 	fmt.Printf("Prime number:%v \n", prime)
@@ -45,7 +45,7 @@ func getPrime(size uint) []int {
 				end = true
 				break
 			}
-			time.Sleep(200 * time.Millisecond)
+			time.Sleep(100 * time.Millisecond)
 			v.Display(color)
 		}
 	}

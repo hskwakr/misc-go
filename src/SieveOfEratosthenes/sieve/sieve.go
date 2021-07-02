@@ -42,7 +42,8 @@ func threshold(size uint) int {
 
 // Table height of the sequence to display.
 func row(l uint) int {
-	return int(l) / 10
+	r := math.Ceil(float64(l) / 10)
+	return int(r)
 }
 
 /*************************************/
@@ -131,7 +132,8 @@ func (s *Sieve) InitDisplay() aec.ANSI {
 
 // Display a table of number sequence.
 func (s *Sieve) Display(color aec.ANSI) {
-	fmt.Print(aec.Up(uint(row(s.size))))
+	//fmt.Print(aec.Up(uint(row(s.size))))
+	fmt.Print(aec.Up(10))
 
 	for i, v := range s.num {
 		if i == 0 {
@@ -150,7 +152,7 @@ func (s *Sieve) Display(color aec.ANSI) {
 		if i%10 > 0 {
 			fmt.Print("|")
 		}
-		if i%10 == 0 {
+		if i%10 == 0 || i == int(s.size)-1 {
 			fmt.Println()
 		}
 	}

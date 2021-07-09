@@ -13,7 +13,10 @@ func TestConvStrToDemention(t *testing.T) {
 	}
 
 	for k, v := range input {
-		got := ConvStrToDemention(v)
+		got, err := ConvStrToDemention(v)
+		if err != nil {
+			t.Error(err)
+		}
 		if got != want[k] {
 			t.Errorf("got = %v; want %v", got, want[k])
 		}

@@ -1,6 +1,9 @@
 package day2
 
-import "fmt"
+import (
+	"fmt"
+	"time"
+)
 
 // A box which is a perfect right rectangular prism
 type Dimention struct {
@@ -9,30 +12,53 @@ type Dimention struct {
 	h int
 }
 
+// Error for sieve
+type DimentionError struct {
+	When time.Time
+	What string
+}
+
+func (e *DimentionError) Error() string {
+	return fmt.Sprintf("at %v, %s", e.When, e.What)
+}
+
 // Calculate total square feet should elves order
 func CalcTotalSquareFeet() int {
 	total := 0
 	inputs := Data()
 	for _, v := range inputs {
-		d := ConvStrToDemention(v)
+		d, err := ConvStrToDemention(v)
+		if err != nil {
+			fmt.Println(err)
+		}
 		total += CalcPresentSquareFeet(d)
 	}
 
 	return total
 }
 
-// Convert string inpput value into Demention
-func ConvStrToDemention(input string) Dimention {
+// Convert string inpput value into Dimention
+func ConvStrToDemention(input string) (Dimention, error) {
 	var result Dimention
 
 	format := "%dx%dx%d"
 	_, err := fmt.Sscanf(input, format, &result.l, &result.w, &result.h)
 	if err != nil {
-		fmt.Println(err)
-		result = Dimention{0, 0, 0}
+		return Dimention{}, &DimentionError{
+			time.Now(),
+			err.Error(),
+		}
 	}
 
-	return result
+	// Input values should be natural numbers
+	if result.l < 0 && result.w < 0 && result.h < 0 {
+		return Dimention{}, &DimentionError{
+			time.Now(),
+			"input values should be natural numbers",
+		}
+	}
+
+	return result, nil
 }
 
 // Calculate a square feet of a present

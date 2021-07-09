@@ -4,7 +4,7 @@ import (
 	"fmt"
 	"time"
 
-	"github.com/hskwakr/misc-go/sieve-of-eratosthenes/sieve"
+	"github.com/hskwakr/misc-go/src/sieve-of-eratosthenes/sieve"
 )
 
 func main() {

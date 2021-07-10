@@ -27,7 +27,7 @@ func CalcTotalSquareFeet() int {
 	total := 0
 	inputs := Data()
 	for _, v := range inputs {
-		d, err := ConvStrToDemention(v)
+		d, err := ConvStrToDimention(v)
 		if err != nil {
 			fmt.Println(err)
 		}
@@ -38,7 +38,7 @@ func CalcTotalSquareFeet() int {
 }
 
 // Convert string inpput value into Dimention
-func ConvStrToDemention(input string) (Dimention, error) {
+func ConvStrToDimention(input string) (Dimention, error) {
 	var result Dimention
 
 	format := "%dx%dx%d"

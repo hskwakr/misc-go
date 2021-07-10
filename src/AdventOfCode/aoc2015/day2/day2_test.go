@@ -2,7 +2,7 @@ package day2
 
 import "testing"
 
-func TestConvStrToDemention(t *testing.T) {
+func TestConvStrToDimention(t *testing.T) {
 	input := []string{
 		"2x3x4",
 		"1x1x10",
@@ -13,7 +13,7 @@ func TestConvStrToDemention(t *testing.T) {
 	}
 
 	for k, v := range input {
-		got, err := ConvStrToDemention(v)
+		got, err := ConvStrToDimention(v)
 		if err != nil {
 			t.Error(err)
 		}

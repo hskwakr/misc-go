@@ -9,13 +9,6 @@ import (
 // Returns string array for input from text file
 func Data(filePath string) []string {
 	var r []string
-	//filePath, e1 := os.Getwd()
-	//if e1 != nil {
-	//	log.Fatal(e1)
-	//	return []string{}
-	//}
-
-	//f, e2 := os.Open(filePath + "/aoc2015/day2/input")
 	f, e := os.Open(filePath)
 	if e != nil {
 		log.Fatal(e)

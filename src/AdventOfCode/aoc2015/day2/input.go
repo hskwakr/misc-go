@@ -26,3 +26,22 @@ func Data() []string {
 
 	return r
 }
+
+// Returns string array for input from text file
+func DataAsync(out chan string, err chan error) {
+	f, e := os.Open("./aoc2015/day2/input")
+	if e != nil {
+		err <- e
+	}
+
+	s := bufio.NewScanner(f)
+	for s.Scan() {
+		out <- s.Text()
+	}
+	if s.Err() != nil {
+		// non-EOF error.
+		err <- s.Err()
+	}
+	close(out)
+	close(err)
+}

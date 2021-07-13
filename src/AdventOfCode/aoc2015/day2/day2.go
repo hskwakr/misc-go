@@ -37,7 +37,39 @@ func CalcTotalSquareFeet() int {
 	return total
 }
 
-// Convert string inpput value into Dimention
+// Asynchronously calculate the total area that the elves should order
+func CalcTotalSquareFeetAsync() int {
+	total := 0
+	in := make(chan string)
+	err := make(chan error)
+
+	go DataAsync(in, err)
+	end := false
+	for {
+		if end {
+			break
+		}
+
+		select {
+		case e := <-err:
+			if e != nil {
+				fmt.Println(e)
+				end = true
+				break
+			}
+		case v, ok := <-in:
+			if !ok {
+				end = true
+				break
+			}
+
+			total += CalcArea(v)
+		}
+	}
+	return total
+}
+
+// Convert string input value into Dimention
 func ConvStrToDimention(input string) (Dimention, error) {
 	var result Dimention
 
@@ -85,4 +117,13 @@ func min(a, b, c int) int {
 		result = c
 	}
 	return result
+}
+
+// Calculate an area of paper for a present square feet
+func CalcArea(in string) int {
+	d, e := ConvStrToDimention(in)
+	if e != nil {
+		fmt.Println(e)
+	}
+	return CalcPresentSquareFeet(d)
 }

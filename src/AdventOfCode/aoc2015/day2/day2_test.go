@@ -1,20 +1,36 @@
 package day2
 
-import "testing"
+import (
+	"log"
+	"os"
+	"testing"
+)
 
 /*************************************/
 /* Benchmark                         */
 /*************************************/
 
 func BenchmarkCalcTotalSquareFeet(b *testing.B) {
+	filePath, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
 	for i := 0; i < b.N; i++ {
-		CalcTotalSquareFeet()
+		CalcTotalSquareFeet(filePath + "/input")
 	}
 }
 
 func BenchmarkCalcTotalSquareFeetAsync(b *testing.B) {
+	filePath, err := os.Getwd()
+	if err != nil {
+		log.Fatal(err)
+		return
+	}
+
 	for i := 0; i < b.N; i++ {
-		CalcTotalSquareFeetAsync()
+		CalcTotalSquareFeetAsync(filePath + "/input")
 	}
 }
 

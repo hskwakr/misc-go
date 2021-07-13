@@ -9,9 +9,9 @@ import (
 // Returns string array for input from text file
 func Data() []string {
 	var r []string
-	f, err := os.Open("./aoc2015/day2/input")
-	if err != nil {
-		log.Fatal(err)
+	f, e := os.Open("/home/hskwakr/temporal/misc-go/src/AdventOfCode/aoc2015/day2/input")
+	if e != nil {
+		log.Fatal(e)
 		return []string{}
 	}
 
@@ -29,7 +29,7 @@ func Data() []string {
 
 // Returns string array for input from text file
 func DataAsync(out chan string, err chan error) {
-	f, e := os.Open("./aoc2015/day2/input")
+	f, e := os.Open("/home/hskwakr/temporal/misc-go/src/AdventOfCode/aoc2015/day2/input")
 	if e != nil {
 		err <- e
 	}

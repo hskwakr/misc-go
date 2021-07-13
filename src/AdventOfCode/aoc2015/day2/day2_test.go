@@ -2,6 +2,26 @@ package day2
 
 import "testing"
 
+/*************************************/
+/* Benchmark                         */
+/*************************************/
+
+func BenchmarkCalcTotalSquareFeet(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalcTotalSquareFeet()
+	}
+}
+
+func BenchmarkCalcTotalSquareFeetAsync(b *testing.B) {
+	for i := 0; i < b.N; i++ {
+		CalcTotalSquareFeetAsync()
+	}
+}
+
+/*************************************/
+/* Test                              */
+/*************************************/
+
 func TestConvStrToDimention(t *testing.T) {
 	input := []string{
 		"2x3x4",

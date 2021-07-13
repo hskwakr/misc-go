@@ -27,11 +27,7 @@ func CalcTotalSquareFeet(filePath string) int {
 	total := 0
 	inputs := Data(filePath)
 	for _, v := range inputs {
-		d, err := ConvStrToDimention(v)
-		if err != nil {
-			fmt.Println(err)
-		}
-		total += CalcPresentSquareFeet(d)
+		total += CalcArea(v)
 	}
 
 	return total
@@ -67,6 +63,15 @@ func CalcTotalSquareFeetAsync(filePath string) int {
 		}
 	}
 	return total
+}
+
+// Calculate an area of paper for a present square feet
+func CalcArea(in string) int {
+	d, err := ConvStrToDimention(in)
+	if err != nil {
+		fmt.Println(err)
+	}
+	return CalcPresentSquareFeet(d)
 }
 
 // Convert string input value into Dimention
@@ -117,13 +122,4 @@ func min(a, b, c int) int {
 		result = c
 	}
 	return result
-}
-
-// Calculate an area of paper for a present square feet
-func CalcArea(in string) int {
-	d, e := ConvStrToDimention(in)
-	if e != nil {
-		fmt.Println(e)
-	}
-	return CalcPresentSquareFeet(d)
 }

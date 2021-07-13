@@ -23,9 +23,9 @@ func (e *DimentionError) Error() string {
 }
 
 // Calculate total square feet should elves order
-func CalcTotalSquareFeet() int {
+func CalcTotalSquareFeet(filePath string) int {
 	total := 0
-	inputs := Data()
+	inputs := Data(filePath)
 	for _, v := range inputs {
 		d, err := ConvStrToDimention(v)
 		if err != nil {
@@ -38,12 +38,12 @@ func CalcTotalSquareFeet() int {
 }
 
 // Asynchronously calculate the total area that the elves should order
-func CalcTotalSquareFeetAsync() int {
+func CalcTotalSquareFeetAsync(filePath string) int {
 	total := 0
 	in := make(chan string)
 	err := make(chan error)
 
-	go DataAsync(in, err)
+	go DataAsync(filePath, in, err)
 	end := false
 	for {
 		if end {

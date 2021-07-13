@@ -7,9 +7,16 @@ import (
 )
 
 // Returns string array for input from text file
-func Data() []string {
+func Data(filePath string) []string {
 	var r []string
-	f, e := os.Open("/home/hskwakr/temporal/misc-go/src/AdventOfCode/aoc2015/day2/input")
+	//filePath, e1 := os.Getwd()
+	//if e1 != nil {
+	//	log.Fatal(e1)
+	//	return []string{}
+	//}
+
+	//f, e2 := os.Open(filePath + "/aoc2015/day2/input")
+	f, e := os.Open(filePath)
 	if e != nil {
 		log.Fatal(e)
 		return []string{}
@@ -28,8 +35,8 @@ func Data() []string {
 }
 
 // Returns string array for input from text file
-func DataAsync(out chan string, err chan error) {
-	f, e := os.Open("/home/hskwakr/temporal/misc-go/src/AdventOfCode/aoc2015/day2/input")
+func DataAsync(filePath string, out chan string, err chan error) {
+	f, e := os.Open(filePath)
 	if e != nil {
 		err <- e
 	}

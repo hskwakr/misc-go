@@ -27,7 +27,7 @@ func Data(filePath string) []string {
 	return r
 }
 
-// Returns string array for input from text file
+// Asynchronously return string array for input from text file
 func DataAsync(filePath string, out chan string, err chan error) {
 	f, e := os.Open(filePath)
 	if e != nil {

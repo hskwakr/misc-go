@@ -7,15 +7,20 @@ type Point struct {
 }
 
 // Return a number of houses recieved presents
-func CountHouses() int {
-	// Santa's footprints
-	var fp []Point
-
+func Count() int {
 	in := ">"
 	//in := "^>v<"
 	//in := "^v^v^v^v"
 
-	// Move santa
+	fp := MoveSanta(in)
+	return CountHouses(fp)
+}
+
+// Move Santa with elf's order to make footprints
+func MoveSanta(in string) []Point {
+	// Santa's footprints
+	var fp []Point
+
 	fp = append(fp, Point{0, 0})
 	for k, v := range in {
 		switch v {
@@ -34,8 +39,14 @@ func CountHouses() int {
 		}
 	}
 
-	// Count number of Houses receive at least one present
-	c := 1
+	return fp
+}
+
+// CountHouses number of houses receive at least one present
+func CountHouses(fp []Point) int {
+	// number of houses
+	r := 1
+
 	var unique []Point
 	for k, v1 := range fp {
 		if k == 0 {
@@ -52,9 +63,9 @@ func CountHouses() int {
 		}
 		if isUnique {
 			unique = append(unique, v1)
-			c++
+			r++
 		}
 	}
 
-	return c
+	return r
 }

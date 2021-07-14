@@ -6,7 +6,7 @@
 |--------|:---------------------------------------------------------------------------------------:|:--:|:--:|:--:|:--:|:--:|
 |1       |[link](https://github.com/hskwakr/misc-go/tree/main/src/AdventOfCode/aoc2015/day1 "link")|----|----|----|----|----|
 |2       |[link](https://github.com/hskwakr/misc-go/tree/main/src/AdventOfCode/aoc2015/day2 "link")|----|----|----|----|----|
-|3       |----                                                                                     |----|----|----|----|----|
+|3       |[link](https://github.com/hskwakr/misc-go/tree/main/src/AdventOfCode/aoc2015/day3 "link")|----|----|----|----|----|
 |4       |----                                                                                     |----|----|----|----|----|
 |5       |----                                                                                     |----|----|----|----|----|
 |6       |----                                                                                     |----|----|----|----|----|

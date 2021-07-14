@@ -42,7 +42,7 @@ func MoveSanta(in string) []Point {
 	return fp
 }
 
-// CountHouses number of houses receive at least one present
+// Count houses number of houses receive at least one present
 func CountHouses(fp []Point) int {
 	// number of houses
 	r := 1

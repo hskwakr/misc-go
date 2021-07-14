@@ -56,3 +56,42 @@ func TestMoveSata(t *testing.T) {
 		}
 	}
 }
+
+func TestCountHouses(t *testing.T) {
+	in := [][]Point{
+		{
+			Point{0, 0},
+			Point{1, 0}, // >
+		},
+		{
+			Point{0, 0},
+			Point{0, 1}, // ^
+			Point{1, 1}, // >
+			Point{1, 0}, // v
+			Point{0, 0}, // <
+		},
+		{
+			Point{0, 0},
+			Point{0, 1}, // ^
+			Point{0, 0}, // v
+			Point{0, 1}, // ^
+			Point{0, 0}, // v
+			Point{0, 1}, // ^
+			Point{0, 0}, // v
+			Point{0, 1}, // ^
+			Point{0, 0}, // v
+		},
+	}
+	want := []int{
+		2,
+		4,
+		2,
+	}
+
+	for k, v := range in {
+		got := CountHouses(v)
+		if got != want[k] {
+			t.Errorf("\ngot  = %v;\nwant = %v", got, want[k])
+		}
+	}
+}

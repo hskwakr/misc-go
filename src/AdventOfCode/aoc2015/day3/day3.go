@@ -7,11 +7,8 @@ type Point struct {
 }
 
 // Return a number of houses recieved presents
-func Count() int {
-	in := ">"
-	//in := "^>v<"
-	//in := "^v^v^v^v"
-
+func Count(filePath string) int {
+	in := Data(filePath)
 	fp := MoveSanta(in)
 	return CountHouses(fp)
 }

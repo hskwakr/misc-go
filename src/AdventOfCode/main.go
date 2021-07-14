@@ -20,5 +20,5 @@ func main() {
 	fmt.Println("AoC 2015")
 	fmt.Printf("Day1: %d\n", day1.FindRightFloor())
 	fmt.Printf("Day2: %d\n", day2.CalcTotalSquareFeetAsync(filePath+"/aoc2015/day2/input"))
-	fmt.Printf("Day3: %d\n", day3.Count())
+	fmt.Printf("Day3: %d\n", day3.Count(filePath+"/aoc2015/day3/input"))
 }

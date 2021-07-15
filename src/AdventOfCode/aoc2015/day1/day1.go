@@ -1,10 +1,10 @@
 package day1
 
-import "github.com/hskwakr/misc-go/src/AdventOfCode/aoc2015/day1/input"
+import "github.com/hskwakr/misc-go/src/AdventOfCode/util/input"
 
 // Find right floor
-func FindRightFloor() int {
-	return MoveSanta(input.Data())
+func FindRightFloor(filePath string) int {
+	return MoveSanta(input.ReadLine(filePath))
 }
 
 func MoveSanta(input string) int {

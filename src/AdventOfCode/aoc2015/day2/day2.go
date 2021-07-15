@@ -3,6 +3,8 @@ package day2
 import (
 	"fmt"
 	"time"
+
+	"github.com/hskwakr/misc-go/src/AdventOfCode/util/input"
 )
 
 // A box which is a perfect right rectangular prism
@@ -25,8 +27,8 @@ func (e *DimentionError) Error() string {
 // Calculate total square feet should elves order
 func CalcTotalSquareFeet(filePath string) int {
 	total := 0
-	inputs := Data(filePath)
-	for _, v := range inputs {
+	in := input.ReadLines(filePath)
+	for _, v := range in {
 		total += CalcArea(v)
 	}
 
@@ -39,7 +41,7 @@ func CalcTotalSquareFeetAsync(filePath string) int {
 	in := make(chan string)
 	err := make(chan error)
 
-	go DataAsync(filePath, in, err)
+	go input.ReadLinesAsync(filePath, in, err)
 	end := false
 	for {
 		if end {

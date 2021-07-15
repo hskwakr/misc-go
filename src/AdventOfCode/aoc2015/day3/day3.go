@@ -1,5 +1,7 @@
 package day3
 
+import "github.com/hskwakr/misc-go/src/AdventOfCode/util/input"
+
 // Position of a point for a house
 type Point struct {
 	x int
@@ -8,7 +10,7 @@ type Point struct {
 
 // Return a number of houses recieved presents
 func Count(filePath string) int {
-	in := Data(filePath)
+	in := input.ReadLine(filePath)
 	fp := MoveSanta(in)
 	return CountHouses(fp)
 }

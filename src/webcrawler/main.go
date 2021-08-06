@@ -1,14 +1,12 @@
 package main
 
 import (
-	"flag"
-	"fmt"
+	"os"
+
+	"github.com/hskwakr/misc-go/src/webcrawler/cli"
 )
 
-func init() {
-	flag.Parse()
-	fmt.Println(flag.Args())
-}
-
 func main() {
+	app := &cli.CLI{OutStream: os.Stdout, ErrStream: os.Stderr}
+	os.Exit(app.Run(os.Args))
 }

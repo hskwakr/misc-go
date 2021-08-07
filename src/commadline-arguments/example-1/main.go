@@ -6,9 +6,14 @@ import (
 )
 
 func main() {
-	fmt.Println("Starting")
 	//output := flag.Bool("output", false, "Should there be output?")
 	//input := flag.String("input", "file.csv", "The path to the input file")
+
+	flag.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage:\n\tgo <command> [arguments]\n\n")
+		flag.PrintDefaults()
+	}
+
 	flag.Parse()
 	//fmt.Println(*output)
 	//fmt.Println(*input)

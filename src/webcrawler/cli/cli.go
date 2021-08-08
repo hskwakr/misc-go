@@ -21,7 +21,26 @@ type CLI struct {
 	OutStream, ErrStream io.Writer
 }
 
+var (
+	url string
+)
+
 func (c *CLI) Run(args []string) int {
+	if r := c.parse(args); r != 0 {
+		return r
+	}
+
+	links, err := crawler.GetLinks(url)
+	if err != nil {
+		log.Println(err)
+		return ExitCodeApplicationError
+	}
+	writeJSON(links)
+
+	return ExitCodeOK
+}
+
+func (c *CLI) parse(args []string) int {
 	flags := flag.NewFlagSet("webcrawler", flag.ContinueOnError)
 	flags.SetOutput(c.ErrStream)
 
@@ -36,13 +55,21 @@ func (c *CLI) Run(args []string) int {
 	}
 
 	url := flags.Arg(0)
-	links, err := crawler.GetLinks(url)
-	if err != nil {
-		return ExitCodeApplicationError
+	if !urlValidation(url) {
+		return ExitCodeArgumentsError
 	}
-	writeJSON(links)
 
 	return ExitCodeOK
+}
+
+func urlValidation(url string) bool {
+	r := true
+
+	if len(url) == 0 {
+		r = false
+	}
+
+	return r
 }
 
 func writeJSON(data []crawler.Link) {

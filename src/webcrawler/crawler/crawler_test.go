@@ -47,7 +47,7 @@ func TestGetLinks(t *testing.T) {
 		want []Link
 	}{
 		{
-			name: "case 1: proper",
+			name: "case 1: Proper",
 			in:   "http://go-colly.org",
 			want: []Link{
 				{URL: "http://go-colly.org/"},

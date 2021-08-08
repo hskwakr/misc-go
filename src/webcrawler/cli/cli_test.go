@@ -6,7 +6,7 @@ import (
 	"testing"
 )
 
-func TestRun(t *testing.T) {
+func TestParse(t *testing.T) {
 	tests := []struct {
 		name string
 		in   string
@@ -31,9 +31,37 @@ func TestRun(t *testing.T) {
 		t.Run(test.name, func(t *testing.T) {
 			args := strings.Split(test.in, " ")
 
-			status := app.Run(args)
+			status := app.parse(args)
 			if status != test.want {
 				t.Errorf("ExitStatus: %d, want: %d", status, test.want)
+			}
+		})
+	}
+}
+
+func TestUrlValidation(t *testing.T) {
+	tests := []struct {
+		name string
+		in   string
+		want bool
+	}{
+		{
+			name: "case 1: Proper",
+			in:   "http://go-colly.org",
+			want: true,
+		},
+		{
+			name: "case 2: Empty string",
+			in:   "",
+			want: false,
+		},
+	}
+
+	for _, test := range tests {
+		t.Run(test.name, func(t *testing.T) {
+			got := urlValidation(test.in)
+			if got != test.want {
+				t.Errorf("got: %v, want: %v", got, test.want)
 			}
 		})
 	}

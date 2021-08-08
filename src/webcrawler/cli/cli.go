@@ -3,15 +3,19 @@ package cli
 import (
 	"encoding/json"
 	"flag"
+	"fmt"
 	"io"
 	"io/ioutil"
 	"log"
 	"net/url"
+	"os"
 
 	"github.com/hskwakr/misc-go/src/webcrawler/crawler"
 )
 
 const (
+	AppName = "webcrawler"
+
 	ExitCodeOK               = 0
 	ExitCodeParseFlagError   = 1
 	ExitCodeArgumentsError   = 1
@@ -42,8 +46,14 @@ func (c *CLI) Run(args []string) int {
 }
 
 func (c *CLI) parse(args []string) int {
-	flags := flag.NewFlagSet("webcrawler", flag.ContinueOnError)
+	flags := flag.NewFlagSet(AppName, flag.ContinueOnError)
 	flags.SetOutput(c.ErrStream)
+
+	flags.Usage = func() {
+		fmt.Fprintf(flag.CommandLine.Output(), "Usage:\n\t"+AppName+" [oprion] URL\n\n")
+		flag.PrintDefaults()
+		os.Exit(0)
+	}
 
 	if err := flags.Parse(args[1:]); err != nil {
 		return ExitCodeParseFlagError

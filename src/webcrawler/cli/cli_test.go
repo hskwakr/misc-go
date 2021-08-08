@@ -14,12 +14,12 @@ func TestParse(t *testing.T) {
 	}{
 		{
 			name: "case 1: Proper",
-			in:   "webcrawler http://www.foo.bar/index.html",
+			in:   AppName + " http://www.foo.bar/index.html",
 			want: 0,
 		},
 		{
 			name: "case 2: Arguments error with no argument",
-			in:   "webcrawler",
+			in:   AppName,
 			want: 1,
 		},
 	}

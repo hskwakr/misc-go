@@ -1,16 +1,20 @@
 package cli
 
 import (
+	"encoding/json"
 	"flag"
 	"io"
+	"io/ioutil"
+	"log"
 
 	"github.com/hskwakr/misc-go/src/webcrawler/crawler"
 )
 
 const (
-	ExitCodeOK             = 0
-	ExitCodeParseFlagError = 1
-	ExitCodeArgumentsError = 1
+	ExitCodeOK               = 0
+	ExitCodeParseFlagError   = 1
+	ExitCodeArgumentsError   = 1
+	ExitCodeApplicationError = 1
 )
 
 type CLI struct {
@@ -32,7 +36,20 @@ func (c *CLI) Run(args []string) int {
 	}
 
 	url := flags.Arg(0)
-	crawler.GetLinks(url)
+	links, err := crawler.GetLinks(url)
+	if err != nil {
+		return ExitCodeApplicationError
+	}
+	writeJSON(links)
 
 	return ExitCodeOK
+}
+
+func writeJSON(data []crawler.Link) {
+	file, err := json.MarshalIndent(data, "", " ")
+	if err != nil {
+		log.Fatal(err)
+	}
+
+	_ = ioutil.WriteFile("links.json", file, 0644)
 }

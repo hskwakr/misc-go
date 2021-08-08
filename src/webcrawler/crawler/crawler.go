@@ -1,10 +1,7 @@
 package crawler
 
 import (
-	"encoding/json"
 	"fmt"
-	"io/ioutil"
-	"log"
 
 	"github.com/gocolly/colly"
 )
@@ -13,7 +10,7 @@ type Link struct {
 	URL string `json:"URL"`
 }
 
-func GetLinks(site string) error {
+func GetLinks(site string) ([]Link, error) {
 	links := make([]Link, 0)
 	c := colly.NewCollector()
 
@@ -28,19 +25,8 @@ func GetLinks(site string) error {
 	})
 
 	if err := c.Visit(site); err != nil {
-		log.Fatal(err)
+		return links, err
 	}
 
-	writeJSON(links)
-
-	return nil
-}
-
-func writeJSON(data []Link) {
-	file, err := json.MarshalIndent(data, "", " ")
-	if err != nil {
-		log.Fatal(err)
-	}
-
-	_ = ioutil.WriteFile("links.json", file, 0644)
+	return links, nil
 }

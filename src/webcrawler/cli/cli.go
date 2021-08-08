@@ -31,7 +31,7 @@ var (
 )
 
 func (c *CLI) Run(args []string) int {
-	if r := c.parse(args); r != 0 {
+	if r := c.parse(args); r != ExitCodeOK {
 		return r
 	}
 

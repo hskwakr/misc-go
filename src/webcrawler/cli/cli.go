@@ -6,6 +6,7 @@ import (
 	"io"
 	"io/ioutil"
 	"log"
+	"net/url"
 
 	"github.com/hskwakr/misc-go/src/webcrawler/crawler"
 )
@@ -22,7 +23,7 @@ type CLI struct {
 }
 
 var (
-	url string
+	URL string
 )
 
 func (c *CLI) Run(args []string) int {
@@ -30,7 +31,7 @@ func (c *CLI) Run(args []string) int {
 		return r
 	}
 
-	links, err := crawler.GetLinks(url)
+	links, err := crawler.GetLinks(URL)
 	if err != nil {
 		log.Println(err)
 		return ExitCodeApplicationError
@@ -62,14 +63,20 @@ func (c *CLI) parse(args []string) int {
 	return ExitCodeOK
 }
 
-func urlValidation(url string) bool {
-	r := true
-
-	if len(url) == 0 {
-		r = false
+func urlValidation(raw string) bool {
+	u, err := url.ParseRequestURI(raw)
+	if err != nil {
+		log.Println(err)
+		return false
 	}
 
-	return r
+	if u.Scheme != "http" && u.Scheme != "https" {
+		log.Println("Wrong scheme: should be http or https")
+		return false
+	}
+
+	URL = u.String()
+	return true
 }
 
 func writeJSON(data []crawler.Link) {

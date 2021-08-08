@@ -47,12 +47,32 @@ func TestUrlValidation(t *testing.T) {
 	}{
 		{
 			name: "case 1: Proper",
-			in:   "http://go-colly.org",
+			in:   "http://example.com",
+			want: true,
+		},
+		{
+			name: "case 1: Proper",
+			in:   "https://example.com",
 			want: true,
 		},
 		{
 			name: "case 2: Empty string",
 			in:   "",
+			want: false,
+		},
+		{
+			name: "case 3: Input is NOT url (not scheme)",
+			in:   "example.com",
+			want: false,
+		},
+		{
+			name: "case 3: Input is NOT url (wrong scheme)",
+			in:   "ftp://example.com",
+			want: false,
+		},
+		{
+			name: "case 3: Input is NOT url (only foo)",
+			in:   "foo",
 			want: false,
 		},
 	}

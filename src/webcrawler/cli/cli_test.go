@@ -14,17 +14,12 @@ func TestRun(t *testing.T) {
 	}{
 		{
 			name: "case 1: Proper",
-			in:   "webcrawler example.com http://www.foo.bar/index.html",
+			in:   "webcrawler http://www.foo.bar/index.html",
 			want: 0,
 		},
 		{
 			name: "case 2: Arguments error with no argument",
 			in:   "webcrawler",
-			want: 1,
-		},
-		{
-			name: "case 2: Arguments error with 1 argument",
-			in:   "webcrawler example.com",
 			want: 1,
 		},
 	}

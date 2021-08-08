@@ -2,8 +2,9 @@ package cli
 
 import (
 	"flag"
-	"fmt"
 	"io"
+
+	"github.com/hskwakr/misc-go/src/webcrawler/crawler"
 )
 
 const (
@@ -26,13 +27,12 @@ func (c *CLI) Run(args []string) int {
 
 	// Two arguments are required
 	//fmt.Println(len(flags.Args()))
-	if len(flags.Args()) < 2 {
+	if len(flags.Args()) < 1 {
 		return ExitCodeArgumentsError
 	}
 
-	domain := flags.Arg(0)
-	url := flags.Arg(1)
-	fmt.Println(domain, url)
+	url := flags.Arg(0)
+	crawler.GetLinks(url)
 
 	return ExitCodeOK
 }
